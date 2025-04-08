@@ -10,7 +10,6 @@ export default async function migrations(req, res) {
       direction: "up",
       verbose: true,
       migrationsTable: "pgmigrations", 
-      noLock: true, //REMOVER ESSA SOLUÇÃO POSTERIORMENTE
     });
     return res.status(200).json(migrations);
   }
@@ -23,7 +22,6 @@ export default async function migrations(req, res) {
       direction: "up",
       verbose: true,
       migrationsTable: "pgmigrations", 
-      noLock: true, //REMOVER ESSA SOLUÇÃO POSTERIORMENTE
     });
     return res.status(200).json(migrations);
   }
