@@ -1,3 +1,5 @@
+// Faz um comentário :)
+
 import { Client } from "pg";
 
 async function query(queryObject) {
