@@ -11,7 +11,7 @@ export default function StatusPage() {
     <>
       <h1>Status</h1>
       <UpdatedAt />
-      <BackendInfo />
+      <DatabaseStatus />
     </>
   );
 }
@@ -30,24 +30,24 @@ function UpdatedAt() {
   return <div>Última atualização: {updatedAtText}</div>;
 }
 
-function BackendInfo() {
+function DatabaseStatus() {
   const { isLoading, data } = useSWR("/api/v1/status", fetchAPI, {
     refreshInterval: 2000,
   });
 
   if (isLoading) {
-    return <div>Carregando informações do backend...</div>;
+    return <div>Carregando informações do bancos de dados...</div>;
   }
 
   if (!data) {
-    return <div>Erro ao carregar informações do backend.</div>;
+    return <div>Erro ao carregar informações do bancos de dados.</div>;
   }
 
   return (
     <div>
       <h2>Informações do Backend</h2>
       <p>
-        Versão do banco de dado (Postgrees):{" "}
+        Versão do banco de dados (Postgrees):
         {data.dependencies.database.version}
       </p>
       <p>Máximo de conexões: {data.dependencies.database.max_connections}</p>
