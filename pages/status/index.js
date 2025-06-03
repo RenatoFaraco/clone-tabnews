@@ -36,11 +36,11 @@ function DatabaseStatus() {
   });
 
   if (isLoading) {
-    return <div>Carregando informações do bancos de dados...</div>;
+    return <div>Carregando informações do banco de dados...</div>;
   }
 
   if (!data) {
-    return <div>Erro ao carregar informações do bancos de dados.</div>;
+    return <div>Erro ao carregar informações do banco de dados.</div>;
   }
 
   return (
