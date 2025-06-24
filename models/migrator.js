@@ -1,52 +1,38 @@
 import migrationRunner from "node-pg-migrate";
 import { resolve } from "node:path";
 import database from "infra/database.js";
+import { ServiceError } from "infra/errors.js";
 
-const defaultMigrationOptions = {
-  dryRun: true,
-  dir: resolve("infra", "migrations"),
-  direction: "up",
-  verbose: true,
-  migrationsTable: "pgmigrations",
-};
-
-async function listPendingMigrations() {
-  let dbClient;
-
-  try {
-    dbClient = await database.getNewClient();
-
-    const pendingMigrations = await migrationRunner({
-      ...defaultMigrationOptions,
-      dbClient,
-    });
-    return pendingMigrations;
-  } finally {
-    await dbClient?.end();
-  }
-}
-
-async function runPendingMigrations() {
+async function runMigrations({ dryRun }) {
   let dbClient;
 
   try {
     dbClient = await database.getNewClient();
 
     const migratedMigrations = await migrationRunner({
-      ...defaultMigrationOptions,
+      dryRun,
       dbClient,
-      dryRun: false,
+      dir: resolve("infra", "migrations"),
+      direction: "up",
+      verbose: true,
+      migrationsTable: "pgmigrations",
     });
 
     return migratedMigrations;
+  } catch (error) {
+    const operation = dryRun ? "list" : "run";
+    throw new ServiceError({
+      cause: error,
+      message: `Falha durante ${operation} migrations`,
+    });
   } finally {
     await dbClient?.end();
   }
 }
 
 const migrator = {
-  listPendingMigrations,
-  runPendingMigrations,
+  listPendingMigrations: async () => runMigrations({ dryRun: true }),
+  runPendingMigrations: async () => runMigrations({ dryRun: false }),
 };
 
 export default migrator;
