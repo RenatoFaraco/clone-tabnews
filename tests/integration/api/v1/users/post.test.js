@@ -23,19 +23,19 @@ describe("POST /api/v1/users", () => {
       });
       expect(response.status).toBe(201);
 
-      const responsBody = await response.json();
-      expect(responsBody).toEqual({
-        id: responsBody.id,
+      const responseBody = await response.json();
+      expect(responseBody).toEqual({
+        id: responseBody.id,
         username: "testuser",
         email: "testuser@genericmail.com",
         password: "testpassword",
-        created_at: responsBody.created_at,
-        updated_at: responsBody.updated_at,
+        created_at: responseBody.created_at,
+        updated_at: responseBody.updated_at,
       });
 
-      expect(uuidVersion(responsBody.id)).toBe(4);
-      expect(Date.parse(responsBody.created_at)).not.toBeNaN();
-      expect(Date.parse(responsBody.updated_at)).not.toBeNaN();
+      expect(uuidVersion(responseBody.id)).toBe(4);
+      expect(Date.parse(responseBody.created_at)).not.toBeNaN();
+      expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
     });
 
     test("With duplicated 'email'", async () => {
