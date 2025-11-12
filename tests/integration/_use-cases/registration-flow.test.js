@@ -17,6 +17,7 @@ describe("Use case: Registration Flow (all successful)", () => {
         body: JSON.stringify({
           username: "RegistrationFlow",
           email: "registration.flow@gmail.com",
+          password: "SecureP@ssword123",
         }),
       },
     );
